@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FUN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&family=Big+Shoulders:opsz,wght@10..72,100..900&family=Lexend+Deca:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+        --color-light: #d9d9d9;
+        --font-space: "Space Grotesk", sans-serif;
+        --font-shoulders: "Big Shoulders", sans-serif;
+        --font-stencil: "Big Shoulders Stencil", sans-serif;
+      }
+      @layer base {
+        * {
+          @apply scroll-smooth;
+        }
+        body {
+          @apply bg-[#191919] text-light leading-[1.2];
+        }
+        @media (min-width: 1400px) {
+          .left-custom {
+            @apply left-[-30%];
+          }
+        }
+      }
+      @layer utilities {
+        .container-custom-large {
+          @apply mx-auto w-full sm:max-w-full md:max-w-4xl lg:max-w-7xl xl:max-w-[1460px] pl-5 pr-5;
+        }
+        .container-custom {
+          @apply mx-auto w-full sm:max-w-full md:max-w-4xl lg:max-w-[1320px] pl-5 pr-5;
+        }
+        .title-large {
+          @apply font-shoulders font-bold text-4xl md:text-[50px] lg:text-[72px] uppercase z-10 leading-[1.2];
+        }
+        .banner-slider .swiper-pagination span {
+          @apply !w-3 !h-3 border !border-gray-300 !bg-transparent !opacity-100 p-[1px] relative !m-0;
+        }
+        .banner-slider .swiper-pagination span.swiper-pagination-bullet-active {
+          @apply !bg-light;
+        }
+        .banner-slider
+          .swiper-pagination
+          span.swiper-pagination-bullet-active::before {
+          content: "";
+          @apply absolute -top-[2.5px] -left-[2.5px] w-4 h-4 border border-light rounded-[50%];
+        }
+        .banner-slider .swiper-button-next:after,
+        .banner-slider .swiper-button-prev:after {
+          @apply hidden;
+        }
+        .slider-desc-btn:hover::before {
+          @apply bg-light;
+        }
+        /* video */
+        .video.active {
+          @apply max-h-[inherit];
+        }
+        .video.active iframe {
+          @apply w-full h-full aspect-video max-h-[inherit];
+        }
+        /* our-tab */
+        .our-tab.active {
+          @apply pr-0;
+        }
+        .our-tab.active .tab-child::before {
+          @apply bg-[#292929] w-full md:w-[105%] transition-all duration-200 ease-linear;
+        }
+        .our-tab.active .tab-child {
+          @apply pr-6 lg:pr-11 transition-all duration-200 ease-linear;
+        }
+        .our-tab.active .tab-child-title {
+          @apply text-light;
+        }
+        .our-tab.active .tab-child-bg:before {
+          @apply bg-[linear-gradient(90deg,_rgba(41,_41,_41,_0.2)_0%,_#292929_100%)];
+        }
+      }
+      @layer components {
+        .our-tab {
+          @apply pr-3 md:pr-6 lg:pr-12 cursor-pointer;
+        }
+        .tab-child {
+          @apply relative font-shoulders md:text-xl lg:text-[32px] min-h-[46px] lg:min-h-[64px] text-[#292929] pr-3 md:px-6 flex items-center justify-end w-full  h-full;
+        }
+        .tab-child::before {
+          content: "";
+          @apply absolute bg-light -skew-x-[20deg] w-full h-full rounded-xl left-0;
+        }
+        .tab-child-title {
+          @apply z-10 uppercase tracking-[0.5px] text-right;
+        }
+        .tab-child-bg {
+          @apply absolute left-0 w-full h-full rounded-xl -skew-x-[20deg] overflow-hidden;
+        }
+        .tab-child-bg::before {
+          content: "";
+          @apply absolute w-[66%] h-full bg-[linear-gradient(90deg,_rgba(217,_217,_217,_0.2)_0%,_#D9D9D9_100%)];
+        }
+        .tab-child-bg-img {
+          @apply max-w-[65%] skew-x-[20deg] relative -left-[10px] -z-10 w-full h-full object-cover;
+        }
+        /* slider */
+        .slider-content {
+          @apply flex flex-col lg:flex-row justify-start lg:justify-between items-center md:items-end pt-[100px] lg:pt-0 absolute top-0 left-1/2 transform -translate-x-1/2 h-full pb-0 lg:pb-[85px];
+        }
+        .slider-title {
+          @apply uppercase font-bold leading-[1.2] text-white text-center md:text-left text-[40px] md:text-8xl lg:text-[120px] mb-3 md:mb-6 tracking-[2px];
+        }
+        .slider-left-desc {
+          @apply flex flex-col md:flex-row gap-5 md:gap-0 items-center justify-between  max-w-[552px] lg:pr-9 w-full;
+        }
+        .slider-desc-content {
+          @apply text-sm max-w-[347px] w-full text-center md:text-left;
+        }
+        .slider-desc-btn {
+          @apply cursor-pointer relative max-w-[150px] w-full min-h-[49px] flex items-center justify-center hover:text-[#191919];
+        }
+        .slider-desc-btn::before {
+          content: "";
+          @apply absolute top-0 left-0 w-full h-full border border-light rounded-lg -skew-x-[25deg] transition-all ease-in-out -z-10;
+        }
+        .slider-about {
+          @apply relative -bottom-[53px] max-w-[382px];
+        }
+        .slider-about::before {
+          content: "";
+          @apply absolute bg-[url('./images/Shadow.png')] top-[-40px] left-[25%] max-w-[240px] max-h-[210px] w-full h-full bg-no-repeat -z-10 bg-contain lg:scale-[2];
+        }
+        .slider-about-wrapper {
+          @apply relative bottom-0 md:-bottom-4 bg-[url('./images/mask.png')] bg-[length:100%_100%] md:bg-cover bg-no-repeat rounded-3xl px-3 pt-2 pb-9 md:pb-4;
+        }
+        .slider-about-title {
+          @apply font-normal pl-8 md:pl-[60px] uppercase text-[26px] md:text-[32px] relative tracking-[0.2px];
+        }
+        .slider-about-title-img {
+          @apply absolute bottom-[-10px] left-[-32px] max-w-[70px] max-h-[70px] md:max-w-[87px] md:max-h-[87px];
+        }
+        .slider-about-desc {
+          @apply text-sm z-10 mt-1 md:mt-3 leading-[1.3];
+        }
+        .slider-about-desc-em {
+          @apply not-italic text-transparent bg-clip-text bg-[linear-gradient(90deg,_#009FE3_43.43%,_#FFFFFF_61.46%,_#E30613_79.63%)];
+        }
+        .slider-about-btn {
+          @apply z-10 relative -top-5 md:top-0 bg-light flex items-center justify-between gap-[4px] md:gap-[10px] text-[#292929]  font-bold rounded-[50px] p-[4px] md:pl-3 w-max ml-auto mr-1 md:mr-2 text-sm md:text-base min-h-[30px];
+        }
+      }
+    </style>
+</head>
+
+<body>
+  <header class="fixed top-0 left-0 w-full py-[20px] bg-transparent z-100">
+    <div class="container-custom-large px-4 flex items-center justify-between">
+      <a href="/" class="max-w-[125px] flex items-center justify-between cursor-pointer">
+        <img src="./images/Logo.png" alt="FUN" />
+      </a>
+      <div class="flex items-center justify-end gap-x-5 md:gap-x-[32px]">
+        <span class="max-w-[28px] flex items-center justify-between cursor-pointer">
+          <img src="./images/icon_lang.svg" alt="" />
+        </span>
+        <span class="max-w-12 cursor-pointer w-9 md:w-10 lg:w-12">
+          <img src="./images/icon_menu.svg" alt="" />
+        </span>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="swiper banner-slider relative !pb-[50px] md:!pb-[100px] min-h-[700px] lg:min-h-[auto]">
+      <div class="swiper-wrapper relative min-h-[inherit]">
+        <div class="swiper-slide relative min-h-[inherit]">
+          <img src="./images/Banner.jpg" alt="" />
+          <div class="container-custom-large slider-content">
+            <div class="w-full">
+              <h2 class="slider-title font-stencil">GO-KARTS</h2>
+              <div class="slider-left-desc font-space">
+                <p class="slider-desc-content">
+                  Enjoy an adrenaline ride in any weather. Outdoor track and
+                  indoor hall at a professional level with Sodi go-karts.
+                </p>
+                <button class="slider-desc-btn">Find out more</button>
+              </div>
+            </div>
+            <div class="slider-about">
+              <div class="slider-about-wrapper">
+                <h3 class="slider-about-title font-shoulders">
+                  <img class="slider-about-title-img" src="./images/flag.png" alt="" />
+                  Everyday fun for everyone
+                </h3>
+                <p class="slider-about-desc font-space">
+                  A few kilometers from Cheb, we have built a new
+                  entertainment centre
+                  <em class="slider-about-desc-em">FUN Arena Cheb</em>
+                  for you. You will find entertainment and sports activities
+                  for children and adults here.
+                </p>
+              </div>
+              <a href="tel:+420737878891" class="slider-about-btn font-lexend">+420737878891 <img
+                  src="./images/icon_phone.svg" alt="" /></a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide relative min-h-[inherit]">
+          <img src="./images/banner2.jpg" alt="" />
+          <div class="container-custom-large slider-content">
+            <div class="w-full">
+              <h2 class="slider-title font-stencil">JUMPARENA</h2>
+              <div class="slider-left-desc font-space">
+                <p class="slider-desc-content">
+                  Aréna se spoustou atrakcí pro děti i dospělé všech věkových
+                  kategorií. Trampolíny, lezecká stěna, ninja dráha a další
+                  atrakce.
+                </p>
+                <button class="slider-desc-btn">Find out more</button>
+              </div>
+            </div>
+            <div class="slider-about">
+              <div class="slider-about-wrapper">
+                <h3 class="slider-about-title font-shoulders">
+                  <img class="slider-about-title-img" src="./images/flag.png" alt="" />
+                  Everyday fun for everyone
+                </h3>
+                <p class="slider-about-desc font-space">
+                  A few kilometers from Cheb, we have built a new
+                  entertainment centre
+                  <em class="slider-about-desc-em">FUN Arena Cheb</em>
+                  for you. You will find entertainment and sports activities
+                  for children and adults here.
+                </p>
+              </div>
+              <a href="tel:+420737878891" class="slider-about-btn font-lexend">+420737878891 <img
+                  src="./images/icon_phone.svg" alt="" /></a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide relative min-h-[inherit]">
+          <img src="./images/banner3.jpg" alt="" />
+          <div class="container-custom-large slider-content">
+            <div class="w-full">
+              <h2 class="slider-title font-stencil">Virtuální realita</h2>
+              <div class="slider-left-desc font-space">
+                <p class="slider-desc-content">
+                  Díky naší virtuální realitě vstoupíte do jiného světa a
+                  poznáte nové technologie. Vyberte si z naší nabídky her a
+                  zažijte VR na vlastní kůži.
+                </p>
+                <button class="slider-desc-btn">Find out more</button>
+              </div>
+            </div>
+            <div class="slider-about">
+              <div class="slider-about-wrapper">
+                <h3 class="slider-about-title font-shoulders">
+                  <img class="slider-about-title-img" src="./images/flag.png" alt="" />
+                  Everyday fun for everyone
+                </h3>
+                <p class="slider-about-desc font-space">
+                  A few kilometers from Cheb, we have built a new
+                  entertainment centre
+                  <em class="slider-about-desc-em">FUN Arena Cheb</em>
+                  for you. You will find entertainment and sports activities
+                  for children and adults here.
+                </p>
+              </div>
+              <a href="tel:+420737878891" class="slider-about-btn font-lexend">+420737878891 <img
+                  src="./images/icon_phone.svg" alt="" /></a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide relative min-h-[inherit]">
+          <img src="./images/banner4.jpg" alt="" />
+          <div class="container-custom-large slider-content">
+            <div class="w-full">
+              <h2 class="slider-title font-stencil">MULTIBALL</h2>
+              <div class="slider-left-desc font-space">
+                <p class="slider-desc-content">
+                  Interaktivní sportovní a herní konzole, která z pohybu a
+                  vzdělávání dělá opravdovou zábavu. Velké množství her zaujme
+                  všechny věkové kategorie.
+                </p>
+                <button class="slider-desc-btn">Find out more</button>
+              </div>
+            </div>
+            <div class="slider-about">
+              <div class="slider-about-wrapper">
+                <h3 class="slider-about-title font-shoulders">
+                  <img class="slider-about-title-img" src="./images/flag.png" alt="" />
+                  Everyday fun for everyone
+                </h3>
+                <p class="slider-about-desc font-space">
+                  A few kilometers from Cheb, we have built a new
+                  entertainment centre
+                  <em class="slider-about-desc-em">FUN Arena Cheb</em>
+                  for you. You will find entertainment and sports activities
+                  for children and adults here.
+                </p>
+              </div>
+              <a href="tel:+420737878891" class="slider-about-btn font-lexend">+420737878891 <img
+                  src="./images/icon_phone.svg" alt="" /></a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide relative min-h-[inherit]">
+          <img src="./images/banner3.jpg" alt="" />
+          <div class="container-custom-large slider-content">
+            <div class="w-full">
+              <h2 class="slider-title font-stencil">Laserová střelnice</h2>
+              <div class="slider-left-desc font-space">
+                <p class="slider-desc-content">
+                  Vyzkoušejte si nebo vypilujte svou mušku! Laserová střelnice
+                  se třemi režimy střelby na čas otestuje nejen vaši přesnost,
+                  ale také rychlost a postřeh.
+                </p>
+                <button class="slider-desc-btn">Find out more</button>
+              </div>
+            </div>
+            <div class="slider-about">
+              <div class="slider-about-wrapper">
+                <h3 class="slider-about-title font-shoulders">
+                  <img class="slider-about-title-img" src="./images/flag.png" alt="" />
+                  Everyday fun for everyone
+                </h3>
+                <p class="slider-about-desc font-space">
+                  A few kilometers from Cheb, we have built a new
+                  entertainment centre
+                  <em class="slider-about-desc-em">FUN Arena Cheb</em>
+                  for you. You will find entertainment and sports activities
+                  for children and adults here.
+                </p>
+              </div>
+              <a href="tel:+420737878891" class="slider-about-btn font-lexend">+420737878891 <img
+                  src="./images/icon_phone.svg" alt="" /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute container-custom-large mx-auto bottom-[170px] md:!bottom-[190px] lg:!bottom-[152px] left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 md:right-0 z-20 md:!w-fit lg:!ml-0">
+        <div
+          class="swiper-pagination flex justify-center lg:justify-start gap-3 !relative !top-0 !bottom-0 !left-0 !w-[fit-content] mx-auto lg:ml-0">
+        </div>
+      </div>
+      <span
+        class="absolute bg-[url('./images/Shadow.png')] bottom-0 md:bottom-[50px] lg:bottom-[10px] left-[52%] max-w-[240px] max-h-[210px] w-full h-full bg-no-repeat -z-10 lg:z-10 bg-contain md:scale-[1.5] lg:scale-[1] -translate-x-1/2 bg-center"></span>
+      <div class="absolute z-10 bottom-[94px] w-full flex items-center justify-center">
+        <div
+          class="swiper-button-prev select-none !relative !w-full !h-full !left-[22px] !text-white max-w-[120px] min-h-[50px] md:max-w-[142px] md:min-h-[65px] before:bg-[#009FE3] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:-z-10 before:rounded-lg before:-skew-x-[20deg] md:before:-skew-x-[30deg] font-shoulders font-medium text-2xl md:text-[32px] !z-20">
+          RESERVE
+        </div>
+        <div
+          class="swiper-button-next select-none !relative !w-full !h-full !right-[22px] !left-auto !text-white max-w-[120px] min-h-[50px] md:max-w-[142px] md:min-h-[65px] before:bg-[#E30613] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:-z-10 before:rounded-lg before:-skew-x-[20deg] md:before:-skew-x-[25deg] font-shoulders font-medium text-2xl md:text-[32px] !justify-end pr-6 !z-10">
+          NOW!
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between flex-col lg:flex-row gap-10 container-custom pb-[50px] lg:py-[100px] relative">
+      <div class="max-w-[566px] w-full md:w-[90%]">
+        <h2 class="title-large mb-5 lg:mb-[32px] tracking-[1.3px]">
+          Registration
+        </h2>
+        <p class="font-space leading-[1.5]">
+          For organizational and security reasons, every visitor to the FUN
+          arena Cheb must register before entering the attraction. At the
+          reception, your registration will be completed and you will receive
+          a loyalty card which you will use for our services.
+        </p>
+        <span class="absolute pt-6 right-3 lg:right-auto top-0 lg:top-auto">
+          <img src="./images/Floating Logo.png" class="relative left-custom max-w-[80px] md:max-w-[155px]" />
+        </span>
+      </div>
+      <div
+        class="md:max-w-[634px] flex-shrink-0 w-full flex flex-col gap-5 md:gap-12 pl-[5px] z-10 lg:w-[60%] xl:w-full">
+        <div class="min-h-[144px] font-space">
+          <div class="flex items-end justify-between gap-[10px]">
+            <span
+              class="relative font-bold text-5xl md:text-[72px] flex justify-center items-center w-[45px] md:w-[55px] h-[35px] md:h-[50px] text-[#009FE3] before:absolute before:bg-[#29292980] before:rounded-lg before:-skew-x-[25deg] before:w-full before:h-full before:top-[-1px] before:-z-10">1</span>
+            <h3
+              class="flex-1 text-lg md:text-2xl flex items-center justify-start pl-4 md:pl-[30px] font-bold relative min-h-[50px] md:min-h-[64px] before:absolute before:bg-[#292929] before:rounded-lg before:-skew-x-[25deg] before:w-[96%] xl:before:w-full before:h-full before:top-0 before:left-0 before:-z-10">
+              Choose an Attraction
+            </h3>
+          </div>
+          <p class="pl-[70px] md:pl-[95px] pt-2 leading-[1.5] lg:max-w-[500px] text-sm md:text-base">
+            Choose from the attractions of the FUN arena.
+          </p>
+        </div>
+        <div class="min-h-[144px] font-space">
+          <div class="flex items-end justify-between gap-[10px]">
+            <span
+              class="relative font-bold text-5xl md:text-[72px] flex justify-center items-center w-[45px] md:w-[55px] h-[35px] md:h-[50px] text-[#009FE3] before:absolute before:bg-[#29292980] before:rounded-lg before:-skew-x-[25deg] before:w-full before:h-full before:top-[-1px] before:-z-10">2</span>
+            <h3
+              class="flex-1 text-lg md:text-2xl flex items-center justify-start pl-4 md:pl-[30px] font-bold relative min-h-[50px] md:min-h-[64px] before:absolute before:bg-[#292929] before:rounded-lg before:-skew-x-[25deg] before:w-[96%] xl:before:w-full before:h-full before:top-0 before:left-0 before:-z-10">
+              <p class="max-w-[75%] md:max-w-[69%] w-full flex justify-between items-center">
+                <span>Register</span>
+                <span class="bg-[#E30613] cursor-pointer rounded-lg px-[10px] py-[3px] text-xs md:text-sm">Click
+                  here</span>
+              </p>
+            </h3>
+          </div>
+          <p class="pl-[70px] md:pl-[95px] pt-2 flex relative text-sm md:text-base">
+            <span class="max-w-[80%] md:max-w-[68%] leading-[1.5]">You can register at the reception or by clicking the
+              button
+              above from the comfort of your home.
+            </span>
+            <img src="./images/qr.png"
+              class="max-w-[128px] w-[17%] md:w-[21%] absolute -top-[50px] md:top-auto right-0 md:right-6 bottom-[2px]" />
+          </p>
+        </div>
+        <div class="min-h-[144px] font-space">
+          <div class="flex items-end justify-between gap-[10px]">
+            <span
+              class="relative font-bold text-5xl md:text-[72px] flex justify-center items-center w-[45px] md:w-[55px] h-[35px] md:h-[50px] text-[#009FE3] before:absolute before:bg-[#29292980] before:rounded-lg before:-skew-x-[25deg] before:w-full before:h-full before:top-[-1px] before:-z-10">3</span>
+            <h3
+              class="flex-1 text-lg md:text-2xl flex items-center justify-start pl-4 md:pl-[30px] font-bold relative min-h-[50px] md:min-h-[64px] before:absolute before:bg-[#292929] before:rounded-lg before:-skew-x-[25deg] before:w-[96%] xl:before:w-full before:h-full before:top-0 before:left-0 before:-z-10">
+              Have Fun
+            </h3>
+          </div>
+          <p class="pl-[70px] md:pl-[95px] pt-2 leading-[1.5] lg:max-w-[540px] text-sm md:text-base">
+            Thank you for your online registrations. For each purchase you get
+            points, which you can apply to our services and attractions then.
+            We look forward to you!
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="pb-[50px] md:py-[100px] container-custom">
+      <div class="lg:pl-[233px] flex flex-col md:flex-row gap-3 md:gap-0 items-end justify-between mb-12">
+        <div>
+          <h2 class="title-large max-w-[578px] mb-5 md:mb-8 tracking-[1.9px]">
+            New entertainment centre near Cheb
+          </h2>
+          <p class="font-space max-w-[365px] leading-[150%]">
+            We have been entertaining children and adults in western Bohemia
+            for more than 10 years!
+          </p>
+        </div>
+        <a href="#" class="flex-shrink-0 font-space flex items-center gap-3 font-medium">
+          Find more about us
+          <img src="./images/arrow.svg" alt="" />
+        </a>
+      </div>
+      <div class="relative rounded-3xl overflow-hidden max-h-[567px] h-full">
+        <img src="./images/thumb.png" class="play-video aspect-video h-full w-full object-cover" alt="" />
+        <img src="./images/icon_play.svg"
+          class="play-video absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-10 md:w-auto"
+          alt="" />
+        <div class="video w-full h-full"></div>
+      </div>
+    </div>
+    <div class="pb-[50px] md:py-[100px] container-custom">
+      <div class="flex justify-between flex-col md:items-center md:flex-row gap-4 md:gap-3 mb-6 md:mb-12">
+        <h2 class="title-large tracking-[1.2px]">OUR ATTRACTIONS</h2>
+        <span class="font-space font-medium flex gap-6 items-center text-sm md:text-base">Multiple activities at Fun
+          Arena Cheb
+          <img src="./images/double-arrow.svg" alt="" /></span>
+      </div>
+      <div class="flex items-center justify-between flex-col md:flex-row gap-5 md:gap-0">
+        <div class="basis-[39%] w-full md:pl-2 md:flex flex-col gap-3 grid grid-cols-2 gap-x-3 gap-y-2 md:gap-3">
+          <div class="our-tab">
+            <div class="tab-child">
+              <h3 class="tab-child-title">kartarena</h3>
+              <span class="tab-child-bg">
+                <img src="./images/out_img1.jpg" class="tab-child-bg-img" alt="" />
+              </span>
+            </div>
+          </div>
+          <div class="our-tab active">
+            <div class="tab-child">
+              <h3 class="tab-child-title">jumparena</h3>
+              <span class="tab-child-bg">
+                <img src="./images/out_img2.jpg" class="tab-child-bg-img" alt="" />
+              </span>
+            </div>
+          </div>
+          <div class="our-tab">
+            <div class="tab-child">
+              <h3 class="tab-child-title">virtual reality</h3>
+              <span class="tab-child-bg">
+                <img src="./images/out_img3.jpg" class="tab-child-bg-img" alt="" />
+              </span>
+            </div>
+          </div>
+          <div class="our-tab">
+            <div class="tab-child">
+              <h3 class="tab-child-title">multiball</h3>
+              <span class="tab-child-bg">
+                <img src="./images/out_img4.jpg" class="tab-child-bg-img" alt="" />
+              </span>
+            </div>
+          </div>
+          <div class="our-tab">
+            <div class="tab-child">
+              <h3 class="tab-child-title">laser shooting range</h3>
+              <span class="tab-child-bg">
+                <img src="./images/out_img5.jpg" class="tab-child-bg-img" alt="" />
+              </span>
+            </div>
+          </div>
+          <div class="our-tab">
+            <div class="tab-child">
+              <h3 class="tab-child-title">company events</h3>
+              <span class="tab-child-bg">
+                <img src="./images/out_img6.jpg" class="tab-child-bg-img" alt="" />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="basis-[61%] z-10 font-space relative">
+          <img src="./images/out_bg.png" alt="" />
+          <div class="absolute bottom-0 flex items-end justify-between z-10 w-full">
+            <p class="max-w-[400px] w-full pl-4 lg:pl-[33px] pb-4 lg:pb-6">
+              Arena with lots of attractions for children and adults of all
+              ages. Trampolines, climbing wall, ninja track and other
+              attractions.
+            </p>
+            <div class="relative flex">
+              <a href="#"
+                class="relative bg-light font-bold text-center px-4 py-2 lg:px-6 md:min-h-[44px] flex items-center rounded-full text-[#292929] text-sm md:text-base min-w-[130px] md:min-w-[140px] lg:min-w-[155px]">Find
+                out more</a>
+              <span class="absolute bg-[#191919] w-[110%] h-[120%] right-0 bottom-[0%] rounded-tl-[30px] -z-10">
+                <span
+                  class="shadow-[12px_15px_0px_#191919] md:shadow-[10px_10px_0px_#191919] absolute w-[30px] h-[30px] rounded-full bg-transparent bottom-0 -left-[30px]"></span>
+                <span
+                  class="shadow-[10px_10px_0px_#191919] absolute w-[30px] h-[30px] rounded-full bg-transparent right-0 -top-[30px]"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="py-[60px] md:pt-[104px] md:pb-[100px] container-custom flex justify-center">
+      <div
+        class="md:max-w-[90%] xl:max-w-[1000px] md:pr-[65px] w-full p-5 md:p-0 relative bg-[#E30613] rounded-3xl min-h-[110px] flex items-center gap-5 md:gap-0 flex-col md:flex-row font-space text-white md:-left-7 lg:left-auto">
+        <span class="px-10 lg:px-[60px]">
+          <img src="./images/gif.svg" class="w-[100px] scale-[1.5] md:scale-[2.2] mt-[-75px] md:-translate-y-[10px]"
+            alt="" />
+        </span>
+        <div class="flex flex-col font-medium pl-[6px] pt-[5px] w-full lg:w-auto">
+          <h3 class="text-center text-[20px] lg:text-2xl xl:text-[32px] leading-[1.2] mb-1">
+            Make somebody happy with a gift voucher
+          </h3>
+          <p class="relative text-center text-sm xl:text-base">
+            The voucher is valid for all services. Unforgettable experiences
+            for children and adults!
+          </p>
+        </div>
+        <button
+          class="bg-white rounded-xl px-6 py-3 text-[#292929] font-bold md:absolute top-1/2 md:-translate-y-1/2 md:-right-[57px] min-h-[44px]">
+          Buy now
+        </button>
+      </div>
+    </div>
+  </main>
+  <footer class="border-t border-[#292929]">
+    <div class="container-custom py-[50px] md:py-[80px]">
+      <div class="flex items-center flex-wrap flex-col md:flex-row justify-between gap-4 mb-6">
+        <a href="/" class="max-w-[200px]">
+          <img src="./images/logo_footer.png" alt="" />
+        </a>
+        <p class="font-space text-white max-w-[300px] text-sm text-center md:text-left">
+          New entertainment centre FUN arena Cheb. You will find entertainment
+          and sports activities for children and adults here.
+        </p>
+        <ul class="flex flex-col gap-[10px] md:justify-end text-white text-sm font-space text-center md:text-right">
+          <li><a href="#">Potočiště 3, 350 02 Odrava</a></li>
+          <li>
+            <a href="mailto:fun@funarenacheb.cz">fun@funarenacheb.cz</a>
+          </li>
+          <li><a href="tel:+420737878891">+420737878891</a></li>
+        </ul>
+      </div>
+      <div class="flex items-center justify-between flex-wrap flex-col md:flex-row gap-5">
+        <div class="flex items-center gap-3 py-1 px-3 rounded-[300px] justify-center bg-[#292929]">
+          <a href="#" class="w-[32px] h-[32px] flex items-center justify-center">
+            <img src="./images/fb.svg" alt="" />
+          </a>
+          <a href="#" class="w-[32px] h-[32px] flex items-center justify-center">
+            <img src="./images/ig.svg" alt="" />
+          </a>
+          <a href="#" class="w-[32px] h-[32px] flex items-center justify-center">
+            <img src="./images/mail.svg" alt="" />
+          </a>
+          <a href="#" class="w-[32px] h-[32px] flex items-center justify-center">
+            <img src="./images/phone.svg" alt="" />
+          </a>
+        </div>
+        <div class="flex items-center gap-12">
+          <small class="font-space text-sm font-normal text-white">© 2025 FUN Arena Cheb. All rights Reserved.</small>
+          <span
+            class="bg-[#292929] rounded-full w-[40px] h-[40px] flex items-center justify-center cursor-pointer flex-shrink-0 scroll-top fixed right-5 bottom-5 md:static">
+            <img src="./images/arrow-top.svg" alt="" />
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    var swiper = new Swiper(".banner-slider", {
+      spaceBetween: 30,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      effect: "fade",
+      fadeEffect: { crossFade: true },
+      loop: true,
+    });
+  </script>
+  <script src="index.js"></script>
+</body>
+
+</html>
